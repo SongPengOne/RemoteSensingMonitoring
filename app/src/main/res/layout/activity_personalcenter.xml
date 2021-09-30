@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--        通讯录-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+    <TextView
+        android:id="@+id/tv_mine_my_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:drawablePadding="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_12"
+        android:text="@string/my_sign"
+        android:textColor="@color/login_appName" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@color/icon_hui" />
+        <TextView
+            android:id="@+id/tv_mine_my_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="@string/my_message"
+            android:textColor="@color/login_appName" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+        <TextView
+            android:id="@+id/tv_mine_user_manual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="@string/user_manual"
+            android:textColor="@color/login_appName" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+        <TextView
+            android:id="@+id/tv_mine_version_updating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="@string/version_updating"
+            android:textColor="@color/login_appName" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+        <TextView
+            android:id="@+id/tv_mine_about_software"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="@string/about_software"
+            android:textColor="@color/login_appName" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+        <TextView
+        android:id="@+id/tv_mine_logon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:drawablePadding="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_12"
+        android:text="@string/logon"
+        android:textColor="@color/login_appName" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+
+        <TextView
+            android:id="@+id/tv_mine_offline_maps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="@string/offline_maps"
+            android:textColor="@color/login_appName" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="@color/icon_hui" />
+    </LinearLayout>
+</LinearLayout>

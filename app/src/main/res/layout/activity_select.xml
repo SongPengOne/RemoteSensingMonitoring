@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/select_bg"
+
+    android:orientation="vertical"
+    tools:context=".guidepage.SelectActivity">
+    <ImageView
+        android:layout_marginTop="60dp"
+        android:src="@mipmap/select_logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:text="自 然 保 护 区"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+        <TextView
+            android:text="实 地 核 查 系 统"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="150dp">
+            <ImageView
+                android:id="@+id/iv_inspect"
+                android:layout_centerVertical="true"
+                android:src="@drawable/inspect"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_15"
+                android:layout_width="120dp"
+                android:layout_height="120dp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="150dp">
+            <ImageView
+                android:id="@+id/iv_statistics"
+                android:src="@drawable/analyze"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_width="120dp"
+                android:layout_height="120dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

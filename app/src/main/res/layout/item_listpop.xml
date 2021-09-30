@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_pop_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:gravity="center"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tv_listpop"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_15" />
+
+
+        <TextView
+            android:layout_marginRight="@dimen/dp_10"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tv_listhoose"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/green_bg"
+            android:paddingLeft="@dimen/dp_3"
+            android:paddingTop="@dimen/dp_2"
+            android:paddingRight="@dimen/dp_3"
+            android:paddingBottom="@dimen/dp_2"
+            android:text="@string/shield"
+            android:textColor="@color/sidewalk_aqm"
+            android:textSize="@dimen/sp_15" />
+
+
+        <TextView
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_listcheck"
+            android:background="@drawable/pop_navig_bg"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="@string/navigation"
+            android:textColor="@color/white" />
+
+
+        <TextView
+
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1.5"
+            android:id="@+id/tv_listcheck"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/pop_navig_bg"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="@string/check"
+            android:layout_marginRight="@dimen/dp_10"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

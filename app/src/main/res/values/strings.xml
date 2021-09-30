@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">自然保护区实地核查系统</string>
+    <string name="version_name">App名称 V1.0</string>
+
+    <!-- 个人中心-->
+    <string name="my_sign">我的标记</string>
+    <string name="my_message">我的消息</string>
+    <string name="user_manual">用户手册</string>
+    <string name="version_updating">版本更新</string>
+    <string name="about_software">关于软件</string>
+    <string name="logon">登陆设置</string>
+    <string name="offline_maps">离线地图</string>
+
+    <string name="auto_login">自动登录</string>
+    <string name="change_Password">修改密码</string>
+    <string name="Logout">注销</string>
+    <string name="quit">退出</string>
+    <string name="Location">金水区</string>
+    <string name="weather">晴 27℃</string>
+    <string name="search">搜索</string>
+    <string name="address">郑州市</string>
+    <string name="addarea">金水区</string>
+    <string name="selectcity">请选择市</string>
+    <string name="number">图斑编号</string>
+    <string name="type">图斑类型</string>
+    <string name="navigation">导航</string>
+    <string name="details">详情</string>
+    <string name="check">查看</string>
+    <string name="layer">选择图层</string>
+    <string name="mark">标记</string>
+    <string name="ranging">测距</string>
+    <string name="measure">量面</string>
+    <string name="picture">画面</string>
+    <string name="finish">完成</string>
+    <string name="delete">删除</string>
+    <string name="shield">绿盾行动</string>
+    <string name="filter">请输入筛选项</string>
+    <string name="city">市</string>
+    <string name="area">区/县</string>
+    <string name="protectname">保护区名称</string>
+    <string name="protectlevel">保护区级别</string>
+    <string name="functionname">功能区名称</string>
+    <string name="patterntype">图斑类型</string>
+    <string name="checkstatus">核查状态</string>
+    <string name="humanactivity">人类活动类型</string>
+    <string name="reset">重置</string>
+    <string name="confirm">确认</string>
+    <string name="basicinform">基本信息</string>
+    <string name="checkinform">核查信息</string>
+    <string name="serialnumber">序号</string>
+    <string name="coding">编码</string>
+    <string name="provincialregion">省级行政区</string>
+    <string name="years">年份</string>
+    <string name="protectedareaname">保护区名称</string>
+    <string name="Protectedarealevel">保护区级别</string>
+    <string name="questiontype">问题类型</string>
+    <string name="latitudeandlongitude">经纬度</string>
+    <string name="functionallocated">所在功能区</string>
+    <string name="areahectare">占地面积（公顷）</string>
+    <string name="humantype">提取人类活动类型</string>
+    <string name="facilityname">设施名称</string>
+    <string name="protectedarea">保护区名称</string>
+    <string name="functionarea">功能区类型</string>
+    <string name="completiontime">建成时间</string>
+    <string name="facilitystatus">设施现状</string>
+    <string name="eiaprocedure">是否有环评手续</string>
+    <string name="threesimultaneous">是否有三同时验收 手续</string>
+    <string name="verifier">核查人姓名及单位</string>
+    <string name="remark">备注</string>
+    <string name="shoot">拍摄照片(不同角度，需拍3张)</string>
+    <string name="save">保存</string>
+    <string name="upload">上传</string>
+    <string name="rectification">整改前</string>
+    <string name="underrectification">整改中</string>
+    <string name="Afterrectification">整改后</string>
+    <string name="nameverifier">核查人姓名及单位</string>
+    <string name="unit">XXX单位</string>
+    <string name="name">张三</string>
+    <string name="Description">整改后描述</string>
+    <string name="sure">确定</string>
+    <string name="area_">请选择县区</string>
+
+
+
+</resources>

@@ -1,0 +1,9 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <path
+      android:fillColor="@color/login_appName"
+      android:pathData="M617.22,696.19v-94.08C650.24,578.56 670.46,512 670.46,512c0,-31.36 31.36,-41.47 31.36,-41.47 43.14,-41.47 0,-115.2 0,-115.2V222.08C662.53,100.61 513.41,84.86 513.41,84.86s-150.02,15.62 -189.44,137.09V355.2s-43.39,73.86 0,115.2c0,0 31.49,10.11 31.49,41.47 0,0 20.35,66.56 53.63,90.11v94.08S20.48,813.57 32.26,939.01h959.49c11.78,-125.31 -374.53,-242.82 -374.53,-242.82z"/>
+</vector>

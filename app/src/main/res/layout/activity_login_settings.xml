@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    tools:context=".mycenter.LoginSettingsActivity">
+
+    <include layout="@layout/public_header" />
+
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:drawablePadding="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_20"
+        android:text="@string/auto_login"
+        android:textColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@color/icon_hui" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_20"
+        android:text="@string/change_Password"
+        android:textColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@color/icon_hui" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:padding="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_20"
+        android:text="@string/Logout"
+        android:textColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@color/icon_hui" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:drawableEnd="@drawable/ic_right_arrow"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_20"
+        android:text="@string/quit"
+        android:textColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@color/icon_hui"
+        android:paddingStart="@dimen/dp_12" />
+</LinearLayout>
