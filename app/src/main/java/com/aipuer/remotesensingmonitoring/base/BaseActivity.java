@@ -31,7 +31,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(bindLayout());
         ButterKnife.bind(this);
-
         doBusiness(this);
         Window window = getWindow();
         //取消设置透明状态栏,使 ContentView 内容不再覆盖状态栏

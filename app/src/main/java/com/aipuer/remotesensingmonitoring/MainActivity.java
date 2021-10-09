@@ -1,13 +1,13 @@
 package com.aipuer.remotesensingmonitoring;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,23 +32,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aipuer.remotesensingmonitoring.adapter.PopuwinBottonAdapter;
 import com.aipuer.remotesensingmonitoring.adapter.PopuwinListAdapter;
 import com.aipuer.remotesensingmonitoring.base.BaseActivity;
-import com.aipuer.remotesensingmonitoring.utils.DialogUtils;
 import com.aipuer.remotesensingmonitoring.utils.PopuwinUitls;
 import com.aipuer.remotesensingmonitoring.utils.StatusBarUtils;
-import com.aipuer.remotesensingmonitoring.utils.TopMenuHeader;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.AMap;
+
+
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+
+
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.MyLocationStyle;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends Activity {
+
 
     private static final String TAG = "主页面";
-
     @BindView(R.id.rly)
     RelativeLayout relativeLayout;
 
@@ -91,11 +100,106 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
     private PopuwinListAdapter popuwinListAdapter;
+    private MapView mMapView = null;
+    private AMap aMap;
+    public AMapLocationClientOption mLocationOption = null;
 
+    AMapLocationClient mLocationClient = null;
+    private MyLocationStyle myLocationStyle;
+    /**
+     * 是否第一次定位
+     */
+    private boolean isFirstLocation = true;
+
+    /**
+     * 当前定位城市
+     */
 
     @Override
-    public int bindLayout() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         StatusBarUtils.setColor(this, getResources().getColor(R.color.event_dark_blue));
+        mMapView = (MapView) findViewById(R.id.map);
+        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
+        mMapView.onCreate(savedInstanceState);
+       initAmap();
+    }
+
+
+    private void initAmap() {
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+        }
+
+
+        // 如果要设置定位的默认状态，可以在此处进行设置
+        myLocationStyle = new MyLocationStyle();
+        // 设置圆形的边框颜色
+        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
+        // 设置圆形的填充颜色
+        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
+        //aMap.setMyLocationStyle(myLocationStyle);
+        aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE));
+
+        // 设置默认定位按钮是否显示
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);
+        // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setMyLocationEnabled(true);
+
+        /*定位 当前位置*/
+        getCurrentLocation();
+    }
+
+
+    private void getCurrentLocation() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(this);
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        // 同时使用网络定位和GPS定位,优先返回最高精度的定位结果,以及对应的地址描述信息
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setInterval(1000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+    /**
+     * 定位回调监听器
+     */
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    if (isFirstLocation) {
+                        isFirstLocation = false;
+                        //定位成功回调信息，设置相关消息
+                        double currentLat = amapLocation.getLatitude();
+                        double currentLon = amapLocation.getLongitude();
+//                        currLatLng = new LatLng(currentLat, currentLon);
+                   //     currCity = amapLocation.getCity();
+                        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat, currentLon), 16));
+                    }
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+
+
+
+   /* @Override
+    public int bindLayout() {
+
         return R.layout.activity_main;
 
     }
@@ -108,7 +212,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void doBusiness(Context context) {
 
-    }
+    }*/
 
     @SuppressLint("WrongConstant")
     @OnClick({R.id.rly, R.id.rl_search, R.id.iv_layer, R.id.im_toolbox, R.id.tv_measure, R.id.iv_list, R.id.iv_shorthand})
@@ -292,8 +396,35 @@ public class MainActivity extends BaseActivity {
         if (requestCode == 1000 && resultCode == 1001) {
             String res = data.getStringExtra("result");
             tv_title.setText(res);
-
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
+        mMapView.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
+        mMapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
+        mMapView.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        mMapView.onSaveInstanceState(outState);
     }
 
 

@@ -10,10 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aipuer.remotesensingmonitoring.MainActivity;
 import com.aipuer.remotesensingmonitoring.R;
-import com.aipuer.remotesensingmonitoring.utils.DialogUtils;
-import com.aipuer.remotesensingmonitoring.utils.PopuwinUitls;
 
 import java.util.ArrayList;
 

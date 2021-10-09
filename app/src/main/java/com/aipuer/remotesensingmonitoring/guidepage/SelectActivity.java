@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.aipuer.remotesensingmonitoring.AnalysisActivity;
 import com.aipuer.remotesensingmonitoring.MainActivity;
 import com.aipuer.remotesensingmonitoring.R;
 import com.aipuer.remotesensingmonitoring.mycenter.PersonalCenter;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
  * @Remark: 选择模块
  */
 public class SelectActivity extends AppCompatActivity {
-
+//PersonalCenter 个人模块
 
     @BindView(R.id.iv_inspect)
     ImageView ivInspect;
@@ -46,7 +47,7 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.iv_statistics:
-                Intent intent1 = new Intent(SelectActivity.this, PersonalCenter.class);
+                Intent intent1 = new Intent(SelectActivity.this, AnalysisActivity.class);
                 startActivity(intent1);
                 break;
         }

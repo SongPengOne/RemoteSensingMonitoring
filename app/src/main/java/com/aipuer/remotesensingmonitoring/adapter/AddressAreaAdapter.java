@@ -19,6 +19,7 @@ public class AddressAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final ArrayList<String> list;
     private final AddressActivity context;
     private OnListener onListener;
+    private boolean flag = true;
 
 
     public AddressAreaAdapter(ArrayList<String> objects, AddressActivity addressActivity) {
@@ -42,12 +43,18 @@ public class AddressAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             @Override
             public void onClick(View v) {
-
-                if (onListener != null) {
-                    onListener.Click(list.get(position),addressHolder.iv_choose);
+                if (flag) {
+                    addressHolder.iv_choose.setBackgroundResource(R.drawable.ic_selected);
+                    if (onListener != null) {
+                        onListener.Click(list.get(position), addressHolder.iv_choose);
+                    }
+                } else {
+                    addressHolder.iv_choose.setBackgroundResource(R.drawable.ic_unselected);
                 }
+
             }
         });
+
     }
 
     @Override

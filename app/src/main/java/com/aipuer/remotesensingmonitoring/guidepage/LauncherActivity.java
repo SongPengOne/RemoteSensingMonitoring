@@ -53,7 +53,6 @@ public class LauncherActivity extends AppCompatActivity {
             }
             return false;
         }
-
     });
 
 
@@ -62,7 +61,6 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         initView();
-
     }
 
     //初始化View

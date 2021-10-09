@@ -31,6 +31,8 @@
     <string name="ranging">测距</string>
     <string name="measure">量面</string>
     <string name="picture">画面</string>
+    <string name="movepoint">移动点</string>
+    <string name="deletepoint">删除点</string>
     <string name="finish">完成</string>
     <string name="delete">删除</string>
     <string name="shield">绿盾行动</string>
@@ -79,7 +81,15 @@
     <string name="Description">整改后描述</string>
     <string name="sure">确定</string>
     <string name="area_">请选择县区</string>
-
+    <string name="statistics">保护区统计</string>
+    <string name="district">行政区统计</string>
+    <string name="issued">下发总数</string>
+    <string name="checkednumber">已核查数</string>
+    <string name="Unchecked">未核查数</string>
+    <string name="erificationratio">核查比例</string>
+    <string name="greenshield">绿盾行动</string>
+    <string name="ecologicaldamage">新增疑似生态 破坏问题图斑</string>
+    <string name="humanactivities">人类活动类型 问题图斑</string>
 
 
 </resources>

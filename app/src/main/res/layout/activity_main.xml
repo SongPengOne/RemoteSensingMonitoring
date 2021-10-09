@@ -23,6 +23,9 @@
             android:paddingStart="@dimen/dp_20"
             android:paddingEnd="@dimen/dp_12">
 
+
+
+
             <RelativeLayout
                 android:id="@+id/rly"
                 android:layout_width="wrap_content"
@@ -105,14 +108,25 @@
 
         </RelativeLayout>
 
+
+
         <RelativeLayout
             android:id="@+id/rl_mian"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+            <com.amap.api.maps.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+
+
             <LinearLayout
                 android:id="@+id/ll_specific"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -129,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/im_toolbox"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:drawableTop="@drawable/ic_measure"
+                    android:drawableTop="@drawable/ic_area"
                     android:gravity="center"
                     android:text="@string/picture"
                     android:textColor="@color/hui"
@@ -140,9 +154,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/im_toolbox"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:drawableTop="@drawable/ic_dele"
+                    android:drawableTop="@drawable/ic_movepoint"
                     android:gravity="center"
-                    android:text="@string/picture"
+                    android:text="@string/movepoint"
                     android:textColor="@color/hui"
                     android:textSize="@dimen/sp_11" />
 
@@ -151,9 +165,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/im_toolbox"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:drawableTop="@drawable/ic_measure"
+                    android:drawableTop="@drawable/ic_deletepoint"
                     android:gravity="center"
-                    android:text="@string/picture"
+                    android:text="@string/deletepoint"
                     android:textColor="@color/hui"
                     android:textSize="@dimen/sp_11" />
 
@@ -173,7 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/im_toolbox"
                     android:layout_marginRight="@dimen/dp_5"
-                    android:drawableTop="@drawable/ic_dele"
+                    android:drawableTop="@drawable/ic_delete"
                     android:gravity="center"
                     android:text="@string/delete"
                     android:textColor="@color/hui"

@@ -1,7 +1,5 @@
 package com.aipuer.remotesensingmonitoring.adapter;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aipuer.remotesensingmonitoring.AddressActivity;
 import com.aipuer.remotesensingmonitoring.R;
-
 import java.util.ArrayList;
 
 public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -22,6 +18,7 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final ArrayList<String> list;
     private final AddressActivity context;
     private OnListener onListener;
+    private boolean flag=true;
 
 
     public AddressAdapter(ArrayList<String> objects, AddressActivity addressActivity) {
@@ -40,15 +37,18 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         AddressHolder addressHolder = (AddressHolder) holder;
         addressHolder.textView.setText(list.get(position));
-        if (onListener != null) {
-            onListener.Click(list.get(position),addressHolder.iv_choose);
-        }
-
 
         addressHolder.iv_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                  if(flag){
+                      addressHolder.iv_choose.setBackgroundResource(R.drawable.ic_selected);
+                      if (onListener != null) {
+                          onListener.Click(list.get(position),addressHolder.iv_choose);
+                      }
+                  }else {
+                      addressHolder.iv_choose.setBackgroundResource(R.drawable.ic_unselected);
+                  }
             }
         });
 

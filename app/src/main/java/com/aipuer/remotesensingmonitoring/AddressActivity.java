@@ -4,6 +4,7 @@ package com.aipuer.remotesensingmonitoring;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,7 +20,6 @@ import com.aipuer.remotesensingmonitoring.base.BaseActivity;
 
 import java.util.ArrayList;
 
-import butterknife.BindInt;
 import butterknife.BindView;
 
 public class AddressActivity extends BaseActivity {
@@ -40,12 +40,12 @@ public class AddressActivity extends BaseActivity {
     TextView tv_area;
     @BindView(R.id.tv_sure)
     TextView tv_sure;
-    private boolean flag = false;
     @BindView(R.id.tv_shi)
     TextView tv_shi;
     @BindView(R.id.tv_xian)
     TextView tv_xian;
     private String area;
+
 
     @Override
     public int bindLayout() {
@@ -83,32 +83,23 @@ public class AddressActivity extends BaseActivity {
 
         AddressAdapter addressAdapter = new AddressAdapter(objects, this);
         addressAdapter.onItenOnclick(new AddressAdapter.OnListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void Click(String title, ImageView imageView) {
-                Log.d(TAG, "Click: "+title);
+                Log.d(TAG, "ClickTitle: "+title);
+                tv_address.setText(title);
+                tv_address.setBackground(getResources().getDrawable(R.drawable.area_bg));
+                tv_address.setTextColor(R.color.event_dark_blue);
 
+                tv_shi.setVisibility(View.GONE);
+                tv_shi.setTextColor(Color.BLUE);
+                tv_xian.setVisibility(View.VISIBLE);
+                tv_area.setTextColor(Color.WHITE);
+                tv_area.setBackground(getResources().getDrawable(R.color.event_dark_blue));
+                rlv_area.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
 
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tv_address.setText(title);
-                        Log.d(TAG, "onClick: "+title);
-                        tv_area.setTextColor(getResources().getColor(R.color.event_dark_blue));
-                        tv_address.setBackground(getResources().getDrawable(R.drawable.area_bg));
-
-
-
-                        tv_shi.setVisibility(View.GONE);
-                        tv_xian.setVisibility(View.VISIBLE);
-                        tv_area.setTextColor(Color.WHITE);
-                        tv_area.setBackground(getResources().getDrawable(R.color.event_dark_blue));
-                        rlv_area.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    }
-                });
             }
-
-
         });
         recyclerView.setAdapter(addressAdapter);
         iv_addressback.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +108,7 @@ public class AddressActivity extends BaseActivity {
                 finish();
             }
         });
+
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -128,22 +120,17 @@ public class AddressActivity extends BaseActivity {
             public void Click(String til, ImageView imageView) {
                 area = til;
                 tv_area.setText(til);
-                imageView.setOnClickListener(new View.OnClickListener() {
+                tv_sure.setVisibility(View.VISIBLE);
+                tv_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tv_sure.setVisibility(View.VISIBLE);
-                        tv_sure.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent intent = getIntent();
-                                intent.putExtra("result", area);
-                                setResult(1001, intent);
-                                finish();
-                            }
-                        });
+                        Intent intent = getIntent();
+                        intent.putExtra("result", area);
+                        setResult(1001, intent);
+                        finish();
                     }
                 });
+
             }
 
         });
