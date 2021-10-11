@@ -1,13 +1,19 @@
 package com.aipuer.remotesensingmonitoring;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
+
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -25,31 +31,32 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aipuer.remotesensingmonitoring.adapter.PopuwinBottonAdapter;
 import com.aipuer.remotesensingmonitoring.adapter.PopuwinListAdapter;
-import com.aipuer.remotesensingmonitoring.base.BaseActivity;
+import com.aipuer.remotesensingmonitoring.utils.MapUtils;
 import com.aipuer.remotesensingmonitoring.utils.PopuwinUitls;
 import com.aipuer.remotesensingmonitoring.utils.StatusBarUtils;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+
 import com.amap.api.maps.AMap;
-
-
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,19 +108,42 @@ public class MainActivity extends Activity {
     TextView tv_title;
     private PopuwinListAdapter popuwinListAdapter;
     private MapView mMapView = null;
-    private AMap aMap;
-    public AMapLocationClientOption mLocationOption = null;
 
-    AMapLocationClient mLocationClient = null;
-    private MyLocationStyle myLocationStyle;
+
     /**
      * 是否第一次定位
      */
     private boolean isFirstLocation = true;
 
     /**
-     * 当前定位城市
+     * 需要进行检测的权限数组
      */
+    protected String[] needPermissions = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE
+    };
+
+    private static final int PERMISSON_REQUESTCODE = 0;
+
+    /**
+     * 判断是否需要检测，防止不停的弹框
+     */
+    private boolean isNeedCheck = true;
+
+
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明定位回调监听器
+    //public AMapLocationListener mLocationListener = new AMapLocationListener();
+    // public AMapLocationListener mLocationListener;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+    private AMap aMap;
+    private MyLocationStyle myLocationStyle;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,7 +154,208 @@ public class MainActivity extends Activity {
         mMapView = (MapView) findViewById(R.id.map);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
-       initAmap();
+        initAmap();
+        initLocation();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //开始定位
+        startLocation();
+    }
+
+    private void initLocation() {
+        //初始化client
+        mLocationClient = new AMapLocationClient(this.getApplicationContext());
+        //设置定位参数
+        mLocationClient.setLocationOption(getDefaultOption());
+        // 设置定位监听
+        mLocationClient.setLocationListener(mLocationListener);
+
+    }
+
+    private void startLocation() {
+        //根据控件的选择，重新设置定位参数
+        //resetOption();
+        // 设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        // 启动定位
+        mLocationClient.startLocation();
+    }
+
+    private void stopLocation() {
+        // 停止定位
+        mLocationClient.stopLocation();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyLocation();
+    }
+
+    private void destroyLocation() {
+        if (null != mLocationClient) {
+            mLocationClient.onDestroy();
+            mLocationClient = null;
+            mLocationOption = null;
+
+
+        }
+    }
+
+
+    /**
+     * 默认的定位参数
+     *
+     * @author
+     * @since 2.8.0
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
+        mOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
+        //   mOption.setOnceLocation(false);//可选，设置是否单次定位。默认是false
+        mLocationOption.setOnceLocation(true);  //获取一次定位结果：
+        mOption.setOnceLocationLatest(false);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
+        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
+        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
+        return mOption;
+    }
+
+
+    //----------以下动态获取权限---------
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isNeedCheck) {
+            checkPermissions(needPermissions);
+        }
+    }
+
+
+    /**
+     * 检查权限
+     *
+     * @param
+     * @since 2.5.0
+     */
+    private void checkPermissions(String... permissions) {
+        //获取权限列表
+        List<String> needRequestPermissonList = findDeniedPermissions(permissions);
+        if (null != needRequestPermissonList
+                && needRequestPermissonList.size() > 0) {
+            //list.toarray将集合转化为数组
+            ActivityCompat.requestPermissions(this,
+                    needRequestPermissonList.toArray(new String[needRequestPermissonList.size()]),
+                    PERMISSON_REQUESTCODE);
+        }
+    }
+
+
+    /**
+     * 获取权限集中需要申请权限的列表
+     *
+     * @param permissions
+     * @return
+     * @since 2.5.0
+     */
+    private List<String> findDeniedPermissions(String[] permissions) {
+        List<String> needRequestPermissonList = new ArrayList<String>();
+        //for (循环变量类型 循环变量名称 : 要被遍历的对象)
+        for (String perm : permissions) {
+            if (ContextCompat.checkSelfPermission(this,
+                    perm) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                    this, perm)) {
+                needRequestPermissonList.add(perm);
+            }
+        }
+        return needRequestPermissonList;
+    }
+
+    /**
+     * 检测是否说有的权限都已经授权
+     *
+     * @param grantResults
+     * @return
+     * @since 2.5.0
+     */
+    private boolean verifyPermissions(int[] grantResults) {
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] paramArrayOfInt) {
+        if (requestCode == PERMISSON_REQUESTCODE) {
+            if (!verifyPermissions(paramArrayOfInt)) {      //没有授权
+                showMissingPermissionDialog();              //显示提示信息
+                isNeedCheck = false;
+            }
+        }
+    }
+
+    /**
+     * 显示提示信息
+     *
+     * @since 2.5.0
+     */
+    private void showMissingPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.notifyTitle);
+        builder.setMessage(R.string.notifyMsg);
+
+        // 拒绝, 退出应用
+        builder.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        builder.setPositiveButton(R.string.setting,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startAppSettings();
+                    }
+                });
+
+        builder.setCancelable(false);
+
+        builder.show();
+    }
+
+
+    /**
+     * 启动应用的设置
+     *
+     * @since 2.5.0
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
@@ -132,6 +363,12 @@ public class MainActivity extends Activity {
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
+        // 卫星地图模式
+        aMap.setMapType(AMap.MAP_TYPE_NORMAL);
+        //去除左下角高德地图logo
+        aMap.getUiSettings().setLogoBottomMargin(-100);
+        //去除右下角缩放按钮
+        aMap.getUiSettings().setZoomControlsEnabled(false);
 
 
         // 如果要设置定位的默认状态，可以在此处进行设置
@@ -153,6 +390,10 @@ public class MainActivity extends Activity {
     }
 
 
+    /**
+     * @description 获取当前位置信息
+     * @time 2020/11/19 17:12
+     */
     private void getCurrentLocation() {
         //初始化定位
         mLocationClient = new AMapLocationClient(this);
@@ -168,9 +409,95 @@ public class MainActivity extends Activity {
         //启动定位
         mLocationClient.startLocation();
     }
+
+
     /**
      * 定位回调监听器
      */
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                String result = MapUtils.getLocationStr(amapLocation);
+                Log.e("定位", "aMapLocation is null" + result);
+                if (amapLocation.getErrorCode() == 0) {
+                    if (isFirstLocation) {
+                        isFirstLocation = false;
+                        //定位成功回调信息，设置相关消息
+                        double currentLat = amapLocation.getLatitude();
+                        double currentLon = amapLocation.getLongitude();
+//                        currLatLng = new LatLng(currentLat, currentLon);
+                        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat, currentLon), 16));
+
+                    }
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*  private void initAmap() {
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+        }
+
+
+        // 如果要设置定位的默认状态，可以在此处进行设置
+        myLocationStyle = new MyLocationStyle();
+        // 设置圆形的边框颜色
+        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
+        // 设置圆形的填充颜色
+        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
+        //aMap.setMyLocationStyle(myLocationStyle);
+        aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE));
+
+        // 设置默认定位按钮是否显示
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);
+        // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setMyLocationEnabled(true);
+
+        *//*定位 当前位置*//*
+        getCurrentLocation();
+    }
+
+
+    private void getCurrentLocation() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(this);
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        // 同时使用网络定位和GPS定位,优先返回最高精度的定位结果,以及对应的地址描述信息
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setInterval(1000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+    */
+
+    /**
+     * 定位回调监听器
+     *//*
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation amapLocation) {
@@ -195,7 +522,7 @@ public class MainActivity extends Activity {
         }
     };
 
-
+*/
 
    /* @Override
     public int bindLayout() {
@@ -213,9 +540,8 @@ public class MainActivity extends Activity {
     public void doBusiness(Context context) {
 
     }*/
-
     @SuppressLint("WrongConstant")
-    @OnClick({R.id.rly, R.id.rl_search, R.id.iv_layer, R.id.im_toolbox, R.id.tv_measure, R.id.iv_list, R.id.iv_shorthand})
+    @OnClick({R.id.rly, R.id.rl_search, R.id.iv_layer, R.id.im_toolbox, R.id.tv_measure, R.id.iv_list, R.id.iv_shorthand, R.id.iv_position})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rly:
@@ -252,6 +578,10 @@ public class MainActivity extends Activity {
             case R.id.iv_shorthand:
                 Popushorthand popushorthand = new Popushorthand(this, rl_toob);
                 popushorthand.showPop(iv_shorthand);
+                break;
+
+            case R.id.iv_position:  //地图定位
+                initAmap();
                 break;
         }
     }
@@ -395,10 +725,11 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000 && resultCode == 1001) {
             String res = data.getStringExtra("result");
+            Log.d(TAG, "onActivityResult: " + res);
             tv_title.setText(res);
         }
     }
-
+/*
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -425,7 +756,7 @@ public class MainActivity extends Activity {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
-    }
+    }*/
 
 
 }

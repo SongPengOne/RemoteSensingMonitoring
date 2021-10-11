@@ -18,8 +18,8 @@
 
 
         <ImageView
-            android:src="@drawable/boolean_secelen"
-            android:id="@+id/iv_choose"
+            android:src="@drawable/ic_unselected"
+            android:id="@+id/item_iv_choose"
             android:layout_marginRight="@dimen/dp_20"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

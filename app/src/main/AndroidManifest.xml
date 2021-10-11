@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.RECEIVE_MMS" /> <!-- 如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--用于访问GPS定位-->
@@ -31,10 +30,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <!--用于申请调用A-GPS模块-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
-    <!--如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <!--如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明-->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
