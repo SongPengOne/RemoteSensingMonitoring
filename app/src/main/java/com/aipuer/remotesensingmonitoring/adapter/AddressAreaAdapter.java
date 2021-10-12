@@ -38,10 +38,10 @@ public class AddressAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         AddressHolder addressHolder = (AddressHolder) holder;
         addressHolder.textView.setText(list.get(position));
-        addressHolder.iv_choose.setOnClickListener(new View.OnClickListener() {
+      /*  addressHolder.iv_choose.setOnClickListener(new View.OnClickListener() {
 
 
-            @Override
+        *//*    @Override
             public void onClick(View v) {
                 if (flag) {
                     addressHolder.iv_choose.setBackgroundResource(R.drawable.ic_selected);
@@ -52,8 +52,8 @@ public class AddressAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     addressHolder.iv_choose.setBackgroundResource(R.drawable.ic_unselected);
                 }
 
-            }
-        });
+            }*//*
+        });*/
 
     }
 
@@ -71,7 +71,7 @@ public class AddressAreaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             super(itemView);
 
             textView = itemView.findViewById(R.id.tv_itemaddress);
-            iv_choose = itemView.findViewById(R.id.iv_choose);
+         //   iv_choose = itemView.findViewById(R.id.iv_choose);
 
 
         }

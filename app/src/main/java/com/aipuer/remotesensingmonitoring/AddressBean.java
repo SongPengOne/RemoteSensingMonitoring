@@ -5,7 +5,7 @@ import java.util.List;
 public class AddressBean {
 
     private String name;
-    private boolean isChecked=true;
+    private boolean isChecked =false;
     private List<BeanSecondItem> beanSecondItem;
 
     public boolean isChecked() {
@@ -43,6 +43,15 @@ public class AddressBean {
 
     public static class BeanSecondItem {//二级标签类
         public String name;
+        public Boolean isCheck;
+
+        public Boolean getCheck() {
+            return isCheck;
+        }
+
+        public void setCheck(Boolean check) {
+            isCheck = check;
+        }
 
         public BeanSecondItem(String name) {
             this.name = name;

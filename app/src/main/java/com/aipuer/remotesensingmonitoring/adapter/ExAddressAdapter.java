@@ -5,17 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aipuer.remotesensingmonitoring.AddressActivity;
 import com.aipuer.remotesensingmonitoring.AddressBean;
 import com.aipuer.remotesensingmonitoring.R;
 
+import java.util.ArrayList;
 import java.util.List;
+
 public class ExAddressAdapter extends BaseExpandableListAdapter {
     private final AddressActivity context;
     private final List<AddressBean> mBeanFirstItemBases;
+
 
     public ExAddressAdapter(List<AddressBean> mBeanFirstItemBases, AddressActivity addressActivity) {
         this.mBeanFirstItemBases = mBeanFirstItemBases;
@@ -77,13 +83,28 @@ public class ExAddressAdapter extends BaseExpandableListAdapter {
         }
         parenHolder.tv_itemaddress.setText(mBeanFirstItemBases.get(groupPosition).getName());
         Log.d("str", "getGroupView: " + mBeanFirstItemBases.get(groupPosition).getName());
-        boolean checked = mBeanFirstItemBases.get(groupPosition).isChecked();
-        if(checked){
-            parenHolder.iv_choose.setImageResource(R.drawable.ic_selected);
-        }else {
-            parenHolder.iv_choose.setImageResource(R.drawable.ic_unselected);
-        }
 
+
+/**
+ checkbox关键点，第一层checkbox的选中状态监听，
+ 如果勾选中，则把其下的第二层以及第三层都选上，否则相反。
+ */
+
+     /*   parenHolder.cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = parenHolder.cb.isChecked(); //获取单选框
+                mBeanFirstItemBases.get(groupPosition).setChecked(checked);
+                for (int i = 0; i < mBeanFirstItemBases.get(groupPosition).getBeanSecondItem().size(); i++) {
+                    AddressBean.BeanSecondItem beanSecondItem = mBeanFirstItemBases.get(groupPosition).getBeanSecondItem().get(i);
+                    beanSecondItem.setCheck(false);
+                }
+                notifyDataSetChanged();
+            }
+        });
+        *//**通过isCheck属性控制checkbox
+         的选中状态，2，3层同理*//*
+        parenHolder.cb.setChecked(mBeanFirstItemBases.get(groupPosition).isChecked());*/
         return convertView;
     }
 
@@ -97,8 +118,6 @@ public class ExAddressAdapter extends BaseExpandableListAdapter {
             convertView.setTag(subHolder);
         } else {
             subHolder = (SubHolder) convertView.getTag();
-
-
         }
         subHolder.itemtv_address.setText(mBeanFirstItemBases.get(groupPosition).getBeanSecondItem().get(childPosition).getName());
         return convertView;
@@ -110,25 +129,27 @@ public class ExAddressAdapter extends BaseExpandableListAdapter {
     }
 
 
-  public   static class ParenHolder {
-          TextView tv_itemaddress;
-        public   ImageView iv_choose;
+    public static class ParenHolder {
+        TextView tv_itemaddress;
+        public ImageView img;
+        RelativeLayout item_address_rl;
 
         ParenHolder(View view) {
             tv_itemaddress = view.findViewById(R.id.tv_itemaddress);
-            iv_choose = view.findViewById(R.id.iv_choose);
+            img = view.findViewById(R.id.img);
+            item_address_rl = view.findViewById(R.id.item_address_rl);
         }
     }
 
     static class SubHolder {
 
         private final TextView itemtv_address;
-        private final ImageView item_iv_choose;
+        private final CheckBox cb_itemadrs;
 
         SubHolder(View view) {
 
             itemtv_address = view.findViewById(R.id.tv_itemaddress);
-            item_iv_choose = view.findViewById(R.id.item_iv_choose);
+            cb_itemadrs = view.findViewById(R.id.cb_itemadrs);
         }
     }
 }

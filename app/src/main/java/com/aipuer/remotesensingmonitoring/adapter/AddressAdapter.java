@@ -40,7 +40,7 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         AddressHolder addressHolder = (AddressHolder) holder;
         addressHolder.textView.setText(list.get(position));
 
-        addressHolder.item_address_rl.setOnClickListener(new View.OnClickListener() {
+       /* addressHolder.item_address_rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (flag) {
@@ -53,7 +53,7 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         });
-
+*/
     }
 
     @Override
@@ -71,7 +71,7 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
 
             textView = itemView.findViewById(R.id.tv_itemaddress);
-            iv_choose = itemView.findViewById(R.id.iv_choose);
+     //       iv_choose = itemView.findViewById(R.id.iv_choose);
             item_address_rl = itemView.findViewById(R.id.item_address_rl);
 
 

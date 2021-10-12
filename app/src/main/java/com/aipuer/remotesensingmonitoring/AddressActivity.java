@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,9 +47,13 @@ public class AddressActivity extends BaseActivity {
     TextView tv_shi;
     @BindView(R.id.tv_xian)
     TextView tv_xian;
-    ExAddressAdapter.ParenHolder parenHolder;
 
+    ExAddressAdapter.ParenHolder parenHolder = null;
     private List<AddressBean> mBeanFirstItemBases = new ArrayList<>();//数据源
+    private ExAddressAdapter exAddressAdapter;
+
+    private boolean checked=false;
+    private  int tesp=-1;
 
     @Override
     public int bindLayout() {
@@ -94,106 +100,41 @@ public class AddressActivity extends BaseActivity {
         Log.d(TAG, "initDatamBeanFirstItemBases: " + mBeanFirstItemBases.toString());
 
 
-
-
-     /*
-
-        ArrayList<String> objects = new ArrayList<>();
-        objects.add("郑州市");
-        objects.add("周口市");
-        objects.add("洛阳市");
-        objects.add("开封市");
-        objects.add("平顶山市");
-        objects.add("许昌市");
-
-
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("金水区");
-        strings.add("管城区");
-        strings.add("中原区");
-        strings.add("会新区");
-        strings.add("新政区");
-
-
-       Log.d(TAG, "initData: " + objects);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        AddressAdapter addressAdapter = new AddressAdapter(objects, this);
-        addressAdapter.onItenOnclick(new AddressAdapter.OnListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void Click(String title, ImageView imageView) {
-                Log.d(TAG, "ClickTitle: "+title);
-                tv_address.setText(title);
-                tv_address.setBackground(getResources().getDrawable(R.drawable.area_bg));
-                tv_address.setTextColor(R.color.event_dark_blue);
-
-                tv_shi.setVisibility(View.GONE);
-                tv_shi.setTextColor(Color.BLUE);
-                tv_xian.setVisibility(View.VISIBLE);
-                tv_area.setTextColor(Color.WHITE);
-                tv_area.setBackground(getResources().getDrawable(R.color.event_dark_blue));
-                rlv_area.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-
-            }
-        });
-        recyclerView.setAdapter(addressAdapter);
-        iv_addressback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rlv_area.setLayoutManager(layoutManager);
-        AddressAreaAdapter addressAreaAdapter = new AddressAreaAdapter(strings, this);
-        rlv_area.setAdapter(addressAreaAdapter);
-        addressAreaAdapter.onLongItem(new AddressAreaAdapter.OnListener() {
-            @Override
-            public void Click(String til, ImageView imageView) {
-                area = til;
-                tv_area.setText(til);
-                tv_sure.setVisibility(View.VISIBLE);
-                tv_sure.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = getIntent();
-                        intent.putExtra("result", area);
-                        setResult(1001, intent);
-                        finish();
-                    }
-                });
-
-            }
-
-        });
-*/
-
-
-        ExAddressAdapter exAddressAdapter = new ExAddressAdapter(mBeanFirstItemBases, this);
+        exAddressAdapter = new ExAddressAdapter(mBeanFirstItemBases, this);
         expandableListView.setAdapter(exAddressAdapter);
+
+        //设置组项单击事件
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+
             @SuppressLint("ResourceAsColor")
             @Override
             public void onGroupExpand(int groupPosition) {
-                tv_address.setText(mBeanFirstItemBases.get(groupPosition).getName());
+                for (int i = 0; i < mBeanFirstItemBases.size(); i++) {
+                    checked = mBeanFirstItemBases.get(i).isChecked();
+                    ImageView img = exAddressAdapter.getGroupView(i, checked, null, null).findViewById(R.id.img);
 
+                    if (tesp!=-1) {
+               //         checked=false;
+                        img.setImageResource(R.drawable.ic_unselected);
+                    } else {
+                        checked =true;
+                        img.setImageResource(R.drawable.ic_selected);
+                    }
+                }
+
+                tv_address.setText(mBeanFirstItemBases.get(groupPosition).getName());
                 tv_area.setBackground(getResources().getDrawable(R.drawable.area_bg));
                 tv_area.setTextColor(R.color.event_dark_blue);
 
                 tv_address.setTextColor(Color.WHITE);
                 tv_address.setBackground(getResources().getDrawable(R.color.event_dark_blue));
-
                 tv_sure.setVisibility(View.GONE);
 
             }
         });
 
+        //设置子项单击事件
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -225,5 +166,6 @@ public class AddressActivity extends BaseActivity {
             }
         });
     }
+
 
 }
