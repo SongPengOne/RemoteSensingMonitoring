@@ -17,13 +17,14 @@
             android:textColor="@color/black" />
 
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cb_itemadrs"
+        <ImageView
+            android:src="@drawable/ic_unselected"
+            android:id="@+id/img_item"
             android:layout_marginRight="@dimen/dp_20"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="@dimen/dp_15"
+            android:layout_height="@dimen/dp_15"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

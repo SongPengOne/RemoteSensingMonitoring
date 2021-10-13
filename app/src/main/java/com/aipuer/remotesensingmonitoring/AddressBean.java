@@ -43,7 +43,7 @@ public class AddressBean {
 
     public static class BeanSecondItem {//二级标签类
         public String name;
-        public Boolean isCheck;
+        public Boolean isCheck=false;
 
         public Boolean getCheck() {
             return isCheck;
@@ -63,6 +63,10 @@ public class AddressBean {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public boolean isCheck() {
+            return false;
         }
     }
 
