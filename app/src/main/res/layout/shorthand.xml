@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-
-    <net.lucode.hackware.magicindicator.MagicIndicator
+    <!-- app:tabIndicatorFullWidth="false"指示器充满屏幕，设置为false后就会根据字体长度变化。
+        app:tabIndicatorColor="@color/black"  选中下划线颜色
+        app:tabSelectedTextColor="@color/black"   选中字体颜色-->
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_short"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50" />
+        android:layout_height="@dimen/dp_50"
+        app:tabIndicatorColor="@color/black"
+        app:tabIndicatorFullWidth="false"
+        app:tabMinWidth="30dp"
+        app:tabSelectedTextColor="@color/black" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_short"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 
 </LinearLayout>

@@ -289,7 +289,7 @@
                     android:layout_height="@dimen/dp_55"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/dp_40"
-                    app:srcCompat="@mipmap/ic_navigation" />
+                    android:src="@mipmap/ic_navigation" />
 
             </RelativeLayout>
 
@@ -369,6 +369,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
+        app:itemIconTint="@null"
         app:headerLayout="@layout/head_layout"
         app:menu="@menu/menu" />
 

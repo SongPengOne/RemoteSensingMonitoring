@@ -2,16 +2,20 @@ package com.aipuer.remotesensingmonitoring;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
+
 import android.app.AlertDialog;
+
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.graphics.Color;
+
 import android.graphics.drawable.BitmapDrawable;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -31,14 +35,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.aipuer.remotesensingmonitoring.adapter.PopuwinBottonAdapter;
 import com.aipuer.remotesensingmonitoring.adapter.PopuwinListAdapter;
+
+import com.aipuer.remotesensingmonitoring.shorthand.ShortAfterRectFragment;
+import com.aipuer.remotesensingmonitoring.shorthand.ShortBeforeRectFragment;
+import com.aipuer.remotesensingmonitoring.shorthand.ShortUnderRectFragment;
 import com.aipuer.remotesensingmonitoring.utils.MapUtils;
 import com.aipuer.remotesensingmonitoring.utils.PopuwinUitls;
 import com.aipuer.remotesensingmonitoring.utils.StatusBarUtils;
@@ -54,6 +67,7 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +77,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
+
+    private View inflate;
+    private PopupWindow popupWindow;
+
+    private ArrayList<Fragment> fragments;
+    private ArrayList<String> strings;
 
 
     private static final String TAG = "主页面";
@@ -110,6 +130,7 @@ public class MainActivity extends Activity {
     private MapView mMapView = null;
 
 
+
     /**
      * 是否第一次定位
      */
@@ -125,6 +146,7 @@ public class MainActivity extends Activity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE
     };
+
 
     private static final int PERMISSON_REQUESTCODE = 0;
 
@@ -154,7 +176,7 @@ public class MainActivity extends Activity {
         mMapView = (MapView) findViewById(R.id.map);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
-        initAmap();
+        // initAmap();
         initLocation();
         //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -441,105 +463,6 @@ public class MainActivity extends Activity {
     };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  /*  private void initAmap() {
-        if (aMap == null) {
-            aMap = mMapView.getMap();
-        }
-
-
-        // 如果要设置定位的默认状态，可以在此处进行设置
-        myLocationStyle = new MyLocationStyle();
-        // 设置圆形的边框颜色
-        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
-        // 设置圆形的填充颜色
-        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
-        //aMap.setMyLocationStyle(myLocationStyle);
-        aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE));
-
-        // 设置默认定位按钮是否显示
-        aMap.getUiSettings().setMyLocationButtonEnabled(false);
-        // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-        aMap.setMyLocationEnabled(true);
-
-        *//*定位 当前位置*//*
-        getCurrentLocation();
-    }
-
-
-    private void getCurrentLocation() {
-        //初始化定位
-        mLocationClient = new AMapLocationClient(this);
-        //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
-        //初始化AMapLocationClientOption对象
-        mLocationOption = new AMapLocationClientOption();
-        // 同时使用网络定位和GPS定位,优先返回最高精度的定位结果,以及对应的地址描述信息
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        mLocationOption.setInterval(1000);
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
-    }
-    */
-
-    /**
-     * 定位回调监听器
-     *//*
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation amapLocation) {
-            if (amapLocation != null) {
-                if (amapLocation.getErrorCode() == 0) {
-                    if (isFirstLocation) {
-                        isFirstLocation = false;
-                        //定位成功回调信息，设置相关消息
-                        double currentLat = amapLocation.getLatitude();
-                        double currentLon = amapLocation.getLongitude();
-//                        currLatLng = new LatLng(currentLat, currentLon);
-                   //     currCity = amapLocation.getCity();
-                        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat, currentLon), 16));
-                    }
-                } else {
-                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                    Log.e("AmapError", "location Error, ErrCode:"
-                            + amapLocation.getErrorCode() + ", errInfo:"
-                            + amapLocation.getErrorInfo());
-                }
-            }
-        }
-    };
-
-*/
-
-   /* @Override
-    public int bindLayout() {
-
-        return R.layout.activity_main;
-
-    }
-
-    @Override
-    protected void initData() {
-
-    }
-
-    @Override
-    public void doBusiness(Context context) {
-
-    }*/
     @SuppressLint("WrongConstant")
     @OnClick({R.id.rly, R.id.rl_search, R.id.iv_layer, R.id.im_toolbox, R.id.tv_measure, R.id.iv_list, R.id.iv_shorthand, R.id.iv_position})
     public void onClick(View view) {
@@ -555,6 +478,7 @@ public class MainActivity extends Activity {
             case R.id.iv_layer:
                 draw_layout.openDrawer(Gravity.END);
                 NavigationViewOnClick();
+                na_view.setItemIconTintList(null);
                 break;
             case R.id.im_toolbox:
                 if (ll_mark.getVisibility() == View.GONE) {
@@ -575,57 +499,24 @@ public class MainActivity extends Activity {
                 PopuwinUitls popuwinUitls = new PopuwinUitls(this, rl_toob, iv_list, popuwinListAdapter);
                 popuwinUitls.showPop(iv_list);
                 break;
-            case R.id.iv_shorthand:
-                Popushorthand popushorthand = new Popushorthand(this, rl_toob);
-                popushorthand.showPop(iv_shorthand);
-                break;
+            case R.id.iv_shorthand:   //核查速记
 
+                MyDialogFragment myDialogFragment = new MyDialogFragment();
+                myDialogFragment.show(getSupportFragmentManager(), "dialog");
+                break;
             case R.id.iv_position:  //地图定位
                 initAmap();
                 break;
         }
     }
 
-    private void ListPopuwin() {
 
-        ArrayList<String> strings = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            strings.add("撒89" + i);
-        }
-
-
-        View inflate = LayoutInflater.from(this).inflate(R.layout.lay_listpop, null);
-        LinearLayout ll_listpop = inflate.findViewById(R.id.ll_listpop);
-        RecyclerView rly_listpop = inflate.findViewById(R.id.rly_listpop);
-        ImageView iv_listcross = inflate.findViewById(R.id.iv_listcross);
-
-
-        LinearLayoutManager layout = new LinearLayoutManager(this);
-        rly_listpop.setLayoutManager(layout);
-        PopuwinListAdapter popuwinListAdapter = new PopuwinListAdapter(strings, this);
-        rly_listpop.setAdapter(popuwinListAdapter);
-
-
-        PopupWindow popupWindow = new PopupWindow(inflate, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setFocusable(true);
-        iv_listcross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-
-        //点击外部消失
-        popupWindow.setOutsideTouchable(true);
-        //设置可以点击
-        popupWindow.setTouchable(true);
-        //进入退出的动画，指定刚才定义的style
-        popupWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
-        popupWindow.showAtLocation(ll_listpop, Gravity.BOTTOM, 0, 0);
-
-    }
-
+    /**
+     * 点击图层
+     *   侧滑显示
+     */
     private void NavigationViewOnClick() {
+
         View headerView = na_view.getHeaderView(0);
         ImageView iv_menu_return = headerView.findViewById(R.id.iv_menu_return);
         iv_menu_return.setOnClickListener(new View.OnClickListener() {
@@ -635,7 +526,10 @@ public class MainActivity extends Activity {
                 return;
             }
         });
-
+        /**
+         * @param menuItem  菜单条目
+         * @return 每一个条目的点击事件
+         */
         na_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -652,8 +546,6 @@ public class MainActivity extends Activity {
                     case R.id.item5:
                         break;
                 }
-
-
                 return true;
             }
         });
@@ -672,7 +564,6 @@ public class MainActivity extends Activity {
                     }
                     return true;
                 }
-
                 return false;
             }
         });
@@ -720,6 +611,11 @@ public class MainActivity extends Activity {
     }
 
 
+    /**
+     * @param requestCode
+     * @param resultCode
+     * @param data   回传值  首页地址
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -729,34 +625,6 @@ public class MainActivity extends Activity {
             tv_title.setText(res);
         }
     }
-/*
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
-        mMapView.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
-        mMapView.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
-        mMapView.onPause();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
-        mMapView.onSaveInstanceState(outState);
-    }*/
 
 
 }

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group  android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
+        <!--  single 仅有一个项目能够被复选（使用单选按钮）-->
 
-
-    <item
-        android:icon="@mipmap/ic_map"
-        android:id="@+id/item1"
-        android:title="影响地图" />
-    <item
-
-        android:id="@+id/item2"
-        android:title="绿盾行动" />
-    <item
-
-        android:id="@+id/item3"
-        android:title="季节变化" />
-    <item
-
-        android:id="@+id/item4"
-        android:title="人类活动" />
-    <item
-
-        android:id="@+id/item5"
-        android:title="自然保护区" />
+        <item
+            android:id="@+id/item1"
+            android:icon="@mipmap/menu_map"
+            android:title="影响地图" />
+        <item
+            android:id="@+id/item2"
+            android:icon="@mipmap/menu_lvdun"
+            android:title="绿盾行动" />
+        <item
+            android:id="@+id/item3"
+            android:icon="@mipmap/menu_baohuduixiang"
+            android:title="季节变化" />
+        <item
+            android:id="@+id/item4"
+            android:icon="@mipmap/menuperson"
+            android:title="人类活动" />
+        <item
+            android:id="@+id/item5"
+            android:icon="@mipmap/menu_baohuqu"
+            android:title="自然保护区" />
     </group>
 </menu>
